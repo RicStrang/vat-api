@@ -16,6 +16,8 @@
 
 package uk.gov.hmrc.vatapi.assets
 
+import java.util.UUID
+
 import nrs.models._
 import org.joda.time.DateTime
 import play.api.libs.json.{JsValue, Json}
@@ -140,6 +142,8 @@ object TestConstants {
 
     val timestamp: DateTime = DateTime.parse("2018-02-14T09:32:15Z")
 
+    val uuid = "2dd537bc-4244-4ebf-bac9-96321be13cdc"
+
     //Examples taken from NRS Spec
     val nrsSubmission: NRSSubmission = NRSSubmission(
       payload = "payload",
@@ -148,6 +152,7 @@ object TestConstants {
         notableEvent = "vat-return",
         payloadContentType = "application/json",
         payloadSha256Checksum = None,
+        nrSubmissionId = NrsSubmissionId(UUID.fromString(uuid)),
         userSubmissionTimestamp = timestamp,
         identityData = Some(Auth.orgIdentityData),
         userAuthToken = "",

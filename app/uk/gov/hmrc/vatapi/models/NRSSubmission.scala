@@ -16,6 +16,8 @@
 
 package nrs.models
 
+import java.util.UUID
+
 import org.joda.time.{DateTime, LocalDate}
 import play.api.libs.json._
 import uk.gov.hmrc.auth.core.retrieve._
@@ -37,6 +39,7 @@ case class Metadata(businessId: String,
                     notableEvent: String,
                     payloadContentType: String,
                     payloadSha256Checksum: Option[String],
+                    nrSubmissionId: NrsSubmissionId,
                     userSubmissionTimestamp: DateTime,
                     identityData: Option[IdentityData],
                     userAuthToken: String,
@@ -45,7 +48,16 @@ case class Metadata(businessId: String,
 
 object Metadata {
   implicit val idformat: OFormat[IdentityData] = IdentityData.format
+  implicit val nrsSubmissionIdFormat: OFormat[NrsSubmissionId] = NrsSubmissionId.format
   implicit val format: OFormat[Metadata] = Json.format[Metadata]
+}
+
+case class NrsSubmissionId(uuid: UUID) extends AnyVal {
+  override def toString = uuid.toString
+}
+
+object NrsSubmissionId {
+  implicit val format: OFormat[NrsSubmissionId] = Json.format[NrsSubmissionId]
 }
 
 //Todo: match against NRS mandatory fields with what may not be returned from auth.  Appropriate error handling
